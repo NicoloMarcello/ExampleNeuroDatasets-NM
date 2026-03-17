@@ -1,0 +1,41 @@
+name: Run GitHub Actions tests
+
+on:
+  push:
+    branches: [ main, development, experimental ]
+  pull_request:
+    branches: [ main, development, experimental ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.10", "3.12", "3.13" ]
+        runs-on: [ ubuntu-latest, macos-latest, windows-latest ]
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Set up Python  ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version:  ${{ matrix.python-version }}
+
+
+    - name: Test some Python scripts
+      run: |
+        echo "Running tests..."
+        
+        cd FissionYeastPhenotyping
+        pip install -r requirements.txt
+        python ideas.py
+
+
+
+    - name: Final information on installed packages
+      run: |
+        echo "Installed packages:"
+        pip list
