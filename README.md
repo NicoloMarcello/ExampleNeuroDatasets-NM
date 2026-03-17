@@ -1,2 +1,2 @@
 # ExampleNeuroDatasets
-Examples of neuroscience reated datasets from UCL
+Examples of neuroscience related datasets from UCL
