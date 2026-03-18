@@ -80,7 +80,7 @@ def load_dataset(filepath, show_plot=True, save_plot=False, output_dir="."):
     plt.figure(figsize=(6, 6))
 
     if odor_patch is not None:
-        plt.plot(odor_patch[:, 0], odor_patch[:, 1], "r-", label="Odor Patch Boundary")
+        plt.plot(odor_patch[:, 0], odor_patch[:, 1], "y-", label="Odor patch boundary")
 
     strange_scale = 13  # Why is this scaling factor needed? microns to pixels?
 
@@ -89,7 +89,7 @@ def load_dataset(filepath, show_plot=True, save_plot=False, output_dir="."):
         [i * strange_scale for i in traj_data["coord_y"]],
         s=1,
         c="blue",
-        label="Worm centroid trajectory",
+        label=f"Worm centroid trajectory (x{strange_scale})",
     )
 
     plt.scatter(
@@ -98,6 +98,21 @@ def load_dataset(filepath, show_plot=True, save_plot=False, output_dir="."):
         s=3,
         c="black",
         label="Worm neck trajectory",
+    )
+
+    plt.scatter(
+        neck_x[0],
+        neck_y[0],
+        s=64,
+        c="lightgreen",
+        label="Start",
+    )
+    plt.scatter(
+        neck_x[-1],
+        neck_y[-1],
+        s=64,
+        c="red",
+        label="End",
     )
 
     plt.scatter(
