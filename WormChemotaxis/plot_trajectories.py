@@ -2,6 +2,8 @@ import h5py
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.colors import Normalize
 import numpy as np
 
 # File paths for the 3 conditions
@@ -29,7 +31,7 @@ colors = {
 }
 
 # Create figure and axis
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(6, 6))
 
 # Load and plot each trajectory
 for condition, filepath in filepaths.items():
@@ -47,14 +49,7 @@ for condition, filepath in filepaths.items():
     y_normalized = y_coords - y_coords[0]
     
     # Plot the trajectory
-    plt.scatter(
-        x_normalized,
-        y_normalized,
-        s=2,
-        c=colors[condition],
-        label=condition,
-        alpha=0.6,
-    )
+    plt.scatter(x_normalized,y_normalized,s=2,c=colors[condition],label=condition,alpha=0.6,)
     
     print(f"  Plotted {len(x_normalized)} points")
 
@@ -65,6 +60,13 @@ plt.title("Worm Chemotaxis Trajectories", fontsize=14, fontweight="bold")
 plt.legend(fontsize=11, loc="best")
 plt.grid(True, alpha=0.3)
 plt.axis("equal")
+
+# Add odor gradient colorbar
+sm = cm.ScalarMappable(cmap=cm.Blues, norm=Normalize(vmin=0, vmax=1))
+sm.set_array([])
+cbar = plt.colorbar(sm, ax=plt.gca(), orientation='horizontal', pad=0.15, shrink=0.8)
+cbar.set_label('Odor Gradient', fontsize=11)
+cbar.ax.set_xticklabels(['Weak', '', '', '', 'Strong'])
 
 # Save and show
 output_path = "images/worm_trajectories_comparison.png"
